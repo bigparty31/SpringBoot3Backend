@@ -1,0 +1,32 @@
+package bigparty.shop.springbootdeveloper;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.lang.reflect.Member;
+import java.util.List;
+
+@RestController
+public class TestController {
+    @Autowired
+    TestService testService;
+
+    @GetMapping("/test")
+    public List<Member> getAllMenbers() {
+        List<Member> members = testService.getAllMembers();
+        return members;
+    }
+
+    @Service
+    public class TestService{
+
+        @Autowired
+        MemberRepository memberRepository;
+
+        public List<Member> getAllMembers(){
+            return memberRepository.findAll();
+        }
+    }
+}
