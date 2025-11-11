@@ -2,6 +2,7 @@ package bigparty.shop.springbootdeveloper.service;
 
 import bigparty.shop.springbootdeveloper.domain.Article;
 import bigparty.shop.springbootdeveloper.dto.AddArticleRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import bigparty.shop.springbootdeveloper.repository.BlogRepository;
@@ -29,5 +30,15 @@ public class BlogService {
 
     public void delete(long id) {
         blogRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Article update(long id, AddArticleRequest request) {
+        Article article = blogRepository.findById(id)
+                .orElseThrow(()-> new IllegalStateException("not found" + id));
+
+        article.update(request.getTitle(), request.getContent());
+
+        return article;
     }
 }
